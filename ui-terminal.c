@@ -362,17 +362,25 @@ static void ui_draw(Ui *ui) {
 	debug("ui-draw\n");
 	UiTerm *tui = (UiTerm*)ui;
 	ui_arrange(ui, tui->layout);
-	int dy = 0;
+	int dx = 0, dy = 0;
 	for (UiTermWin *win = tui->windows; win; win = win->next) {
 		ui_window_draw((UiWin*)win);
-		if (win == tui->selwin || win->win == tui->vis->win) {
+		if (win == tui->selwin || win->win->parent) {
 			View *view = win->win->view;
-			size_t pos = view_cursor_get(view);
-			view_coord_get(view, pos, NULL, &tui->row, &tui->col);
-			tui->row += dy;
+			view_coord_get(view, view_cursor_get(view), NULL, &tui->row, &tui->col);
 			tui->col += win->sidebar_width;
+			tui->row += dy;
+			if (!win->win->parent)
+				tui->col += dx;
+			else if (tui->layout == UI_LAYOUT_VERTICAL)
+				tui->row += win->prev->height;
 		}
-		dy += win->height;
+		if (tui->layout == UI_LAYOUT_HORIZONTAL)
+			dy += win->height;
+		else if (win->win->parent)
+			dy += win->prev->height;
+		else
+			dx += win->width + 1; /* +1 for the |'s */
 	}
 	if (tui->info[0])
 		ui_draw_string(tui, 0, tui->height-1, tui->info, NULL, UI_STYLE_INFO);
