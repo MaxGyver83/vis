@@ -146,6 +146,8 @@ static void vis_mode_normal_enter(Vis *vis, Mode *old) {
 		return;
 	if (old != mode_get(vis, VIS_MODE_INSERT) && old != mode_get(vis, VIS_MODE_REPLACE))
 		return;
+	printf("\e[2 q"); /* block cursor */
+	fflush(stdout);
 	if (vis->autoindent && strcmp(vis->key_prev, "<Enter>") == 0) {
 		Text *txt = win->file->text;
 		for (Selection *s = view_selections(win->view); s; s = view_selections_next(s)) {
@@ -229,6 +231,11 @@ static void vis_mode_visual_leave(Vis *vis, Mode *new) {
 static void vis_mode_insert_replace_enter(Vis *vis, Mode *old) {
 	if (!vis->win || vis->win->parent)
 		return;
+	if (vis->mode->id == VIS_MODE_REPLACE)
+		printf("\e[4 q"); /* underline cursor */
+	else
+		printf("\e[6 q"); /* bar cursor */
+	fflush(stdout);
 	if (!vis->action.op) {
 		action_reset(&vis->action_prev);
 		vis->action_prev.op = &vis_operators[VIS_OP_MODESWITCH];
