@@ -1,5 +1,11 @@
 # Vis - Combining Modal Editing with Structural Regular Expressions
 
+This is my fork of vis which contains these changes:
+
+* customized cursor styles (bar in insert mode, underline in replace mode) (see [#953](https://github.com/martanne/vis/pull/953))
+
+---
+
 [![builds.sr.ht status](https://builds.sr.ht/~martanne/vis/commits.svg)](https://builds.sr.ht/~martanne/vis/commits?)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/3939/badge.svg)](https://scan.coverity.com/projects/3939)
 [![codecov](https://codecov.io/gh/martanne/vis/branch/master/graph/badge.svg)](https://codecov.io/gh/martanne/vis)
