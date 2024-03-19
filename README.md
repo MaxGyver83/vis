@@ -3,6 +3,7 @@
 This is my fork of vis which contains these changes:
 
 * customized cursor styles (bar in insert mode, underline in replace mode) (see [#953](https://github.com/martanne/vis/pull/953))
+* command completion with tab (see [#1173](https://github.com/martanne/vis/pull/1173))
 
 ---
 
